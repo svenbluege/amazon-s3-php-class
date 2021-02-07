@@ -2414,8 +2414,8 @@ final class S3Request
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, false);
-        curl_setopt($curl, CURLOPT_WRITEFUNCTION, array(&$this, '__responseWriteCallback'));
-        curl_setopt($curl, CURLOPT_HEADERFUNCTION, array(&$this, '__responseHeaderCallback'));
+        curl_setopt($curl, CURLOPT_WRITEFUNCTION, array($this, '__responseWriteCallback'));
+        curl_setopt($curl, CURLOPT_HEADERFUNCTION, array($this, '__responseHeaderCallback'));
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
         // Request types
@@ -2514,11 +2514,11 @@ final class S3Request
     /**
      * CURL write callback
      *
-     * @param resource &$curl CURL resource
-     * @param string &$data Data
+     * @param resource $curl CURL resource
+     * @param string $data Data
      * @return integer
      */
-    private function __responseWriteCallback(&$curl, &$data)
+    private function __responseWriteCallback($curl, $data)
     {
         if (in_array($this->response->code, array(200, 206)) && $this->fp !== false)
             return fwrite($this->fp, $data);
